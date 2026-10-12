@@ -15,6 +15,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if (Auth::user()->isRequester())
+                        <x-nav-link :href="route('requester.maintenance-requests.index')" :active="request()->routeIs('requester.maintenance-requests.*')">
+                            {{ __('Maintenance Requests') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -70,6 +75,11 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if (Auth::user()->isRequester())
+                <x-responsive-nav-link :href="route('requester.maintenance-requests.index')" :active="request()->routeIs('requester.maintenance-requests.*')">
+                    {{ __('Maintenance Requests') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

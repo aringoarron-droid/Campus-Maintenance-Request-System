@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\MaintenanceRequestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware(['auth', 'role:requester'])->group(function () {
+    Route::get('/maintenance-requests', [MaintenanceRequestController::class, 'index'])
+        ->name('requester.maintenance-requests.index');
+    Route::post('/maintenance-requests', [MaintenanceRequestController::class, 'store'])
+        ->name('requester.maintenance-requests.store');
+    Route::delete('/maintenance-requests/{maintenanceRequest}', [MaintenanceRequestController::class, 'destroy'])
+        ->name('requester.maintenance-requests.destroy');
 });
 
 Route::middleware(['auth', 'role:admin'])->get('/admin-dashboard', AdminDashboardController::class)
